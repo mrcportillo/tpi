@@ -51,12 +51,17 @@
 		text-decoration: none;
 	}
 	
+	#map > div > div.ol-overlaycontainer-stopevent > div.ol-zoom.ol-unselectable.ol-control > button.ol-zoom-in.ol-has-tooltip{
 
-	.container
-	{
-		
-		width: 1200px;
 	}
+
+
+	button.ol-zoom-in.ol-has-tooltip{
+		
+		 
+	}
+
+	
 	
 
 /*********************************************************************************/
@@ -331,9 +336,11 @@
 	}
 	#panel{
 		background-color:#FFFFCC;
+		height: 500px;
 		padding-right: 20px;
+		text-align:left;
 		float:right;
-		overflow: scroll;
+		overflow: auto;
 
 	}
 
@@ -376,6 +383,18 @@
 /*********************************************************************************/
 /* Menu                                                                          */
 /*********************************************************************************/
+	#map{
+		float: left;
+		width: 500px;
+		height: 900px;
+
+
+
+		
+
+
+	}
+	
 
 	#menu
 	{
@@ -436,7 +455,7 @@
 
 	#wrapper2
 	{
-		height:700px;
+		height:1200px;
 		background: #DC572E;
 	}
 
