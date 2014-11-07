@@ -88,13 +88,12 @@
       
     var map = new ol.Map({
         target: 'map',
-        //interactions:[],
+        interactions:[],
         layers: listarcapas(),
         view: new ol.View({
           projection: 'EPSG:4326',
           center: [-59, -27.5],
           zoom: 4
-          
         })
     });
 
@@ -119,6 +118,8 @@
         
     }
     
+    function medir(){
+        
     var source = new ol.source.Vector();
 
     var vector = new ol.layer.Vector({
@@ -164,14 +165,19 @@
       if (sketch) {
         var output;
         var geom = (sketch.getGeometry());
-        //if (geom instanceof ol.geom.LineString) {
+        
           output = formatLength( /** @type {ol.geom.LineString} */ (geom));
-        //}
+          console.log(output);
+        
         sketchElement.innerHTML = output;
       }
     };
 
-    map.on('mousemove', mouseMoveHandler);
+    //EL DRAMA ESTA ACA ABAJO. EL EVENTO MOUSEMOVE ES DE JQUERY. PROBABLEMENTE SI LO INCLUIS SOLUCIONAS
+    // PROBLEMA. AHI ANDA CON CADA CLICK.
+
+    map.addEventListener('click',mouseMoveHandler);
+    //map.addEventListener('mousemove', mouseMoveHandler);
 
 
     //var typeSelect = document.getElementById('type');
@@ -224,7 +230,9 @@
      * @return {string}
      */
     var formatLength = function(line) {
-      var length = Math.round(line.getLength() * 100) / 100;
+      
+      var length = Math.round(line.getLength() * 150000);  
+      //var length = Math.round(line.getLength() * 100) / 100;
       var output;
       if (length > 100) {
         output = (Math.round(length / 1000 * 100) / 100) +
@@ -235,9 +243,11 @@
       }
       return output;
     };
+        addInteraction();
+
+    }
 
 
     
 
-    addInteraction();
 

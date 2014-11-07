@@ -20,6 +20,7 @@ Released   : 20140207
 <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900" rel="stylesheet" />
 <link href="default.css" rel="stylesheet" type="text/css" media="all" />
 <link href="fonts.css" rel="stylesheet" type="text/css" media="all" />
+<link href="js/libs/ol3/css/ol.css" rel="stylesheet" type="text/css" media="all" />
 
 <!--[if IE 6]><link href="default_ie6.css" rel="stylesheet" type="text/css" /><![endif]-->
 
@@ -38,30 +39,38 @@ Released   : 20140207
 			<ul>
 				<!--<li> <img src="images/measure.png"/>  </li>!-->
                                 
-				<li class="current_page_item"><img src="images/measure.png"/><a href="#"  accesskey="1" title="">Distancia</a></li>
+				<li class="current_page_item" onclick="medir(this)"><img src="images/measure.png"/><a href="#"  accesskey="1" title="">Distancia</a></li>
 				<li><a href="#" accesskey="2" title="">Nueva Capa</a></li>
 				<li><a href="#" accesskey="3" title="">Viva</a></li>
 				<li><a href="#" accesskey="4" title="">La</a></li>
-				<li id ='measureOutput'>            </li>
+				
 			</ul>
 		</div>
 	</div>
 </div>
 <div id="wrapper2">
 	<div id="welcome" class="container">
+		<ol id="measureOutput" reversed>
+
+
+		</ol>
+
 		<div id="map">
-			 <div id="panel">                            </div>
+			 
 			
 		</div>
+		<div id="panel">                            </div>
 	</div>
 
+</div>
+<div id="copyright" class="container">
+	
 </div>
 
 
 <script type="text/javascript" src="tpi.js"></script> 
 
-<div id="copyright" class="container">
-	
-</div>
+
+
 </body>
 </html>
