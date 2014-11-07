@@ -83,6 +83,8 @@
      
       }
       return layer;
+
+
     }
 	// definicion del mapa 
       
@@ -117,7 +119,8 @@
         visibilidad[i]=visibilida;
         
     }
-    
+
+   
     function medir(){
 
             
@@ -247,6 +250,115 @@
                             addInteraction();
 
                         }
+
+  
+
+function agregarCapa(){
+       var source = new ol.source.Vector();
+
+                        var vector = new ol.layer.Vector({
+                          source: source,
+                          style: new ol.style.Style({
+                            fill: new ol.style.Fill({
+                              color: 'rgba(255, 255, 255, 0.2)'
+                            }),
+                            stroke: new ol.style.Stroke({
+                              color: '#ffcc33',
+                              width: 2
+                            }),
+                            image: new ol.style.Circle({
+                              radius: 7,
+                              fill: new ol.style.Fill({
+                                color: '#ffcc33'
+                              })
+                            })
+                          })
+                        });
+
+
+                        var draw; // global so we can remove it later
+                        function addInteraction() {
+                          var type = "Point";
+                          draw = new ol.interaction.Draw({
+                            source: source,
+                            type: /** @type {ol.geom.GeometryType} */ (type)
+                          });
+                          map.addInteraction(draw);
+
+
+                           draw.on('drawend',
+                          function(evt) {
+                            // unset sketch
+                            wkt = 'POINT';
+                            $(crear capa).show();
+                          }, this);
+
+                        }
+
+
+
+                        addInteraction();
+
+
+
+}
+
+function agregarElemento() {
+
+
+
+}
+
+
+
+
+
+
+
+var capa = document.getElementById("capa_nombre").value
+ var consultar = function(coordinate){
+
+      
+  console.log(coordinate);
+  if(coordinate.length==2){
+    //es un punto [lon,lat]
+    var wkt='POINT('+coordinate[0]+' ' +coordinate[1]+')';
+  }else{
+    //es un poligono en la forma [ [ [lon,lat],[lon,lat],....] ]
+    var wkt = 'POLYGON((';
+    for(var i=0;i<coordinate[0].length - 1;i++){
+      wkt+=coordinate[0][i][0]+ ' ' + coordinate[0][i][1]+ ',';
+    }
+    wkt+=coordinate[0][0][0]+' '+coordinate[0][0][1]+'))'
+  }
+  console.log(wkt);
+  //+ '&'capa?='capa'+capa //
+  window.open('php/crearcapa.php?wkt='+wkt);return;
+  };
+
+
+   var clickEnMapa = function(evt){
+  console.log(evt.coordinate);
+  
+  consultar(evt.coordinate);
+      };
+      
+      //function para "cambiar" de interaction en function del value de los radios
+      var seleccionarControl = function(el){
+        if(el.value=="consulta"){
+    map.addInteraction(selectInteraction);
+    map.on('click',clickEnMapa);
+    
+  }else if(el.value=="navegacion"){
+    map.removeInteraction(selectInteraction);
+    map.un('click',clickEnMapa);
+  }
+  console.log(el.value);
+      };
+
+
+   
+      
 
 
             

@@ -54,6 +54,10 @@
 	#map > div > div.ol-overlaycontainer-stopevent > div.ol-zoom.ol-unselectable.ol-control > button.ol-zoom-in.ol-has-tooltip{
 
 	}
+	#controles{
+		float: right;
+
+	}
 
 
 	button.ol-zoom-in.ol-has-tooltip{
