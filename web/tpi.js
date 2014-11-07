@@ -249,7 +249,7 @@
                         };
                             addInteraction();
 
-                        }
+                        };
 
   
 
@@ -290,7 +290,7 @@ function agregarCapa(){
                           function(evt) {
                             // unset sketch
                             wkt = 'POINT';
-                            $(crear capa).show();
+                            
                           }, this);
 
                         }
@@ -315,7 +315,7 @@ function agregarElemento() {
 
 
 
-var capa = document.getElementById("capa_nombre").value
+var capa = document.getElementById("capa_nombre").value;
  var consultar = function(coordinate){
 
       
