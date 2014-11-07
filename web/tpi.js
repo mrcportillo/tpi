@@ -119,133 +119,138 @@
     }
     
     function medir(){
+
+            
+                var source = new ol.source.Vector();
+
+                        var vector = new ol.layer.Vector({
+                          source: source,
+                          style: new ol.style.Style({
+                            fill: new ol.style.Fill({
+                              color: 'rgba(255, 255, 255, 0.2)'
+                            }),
+                            stroke: new ol.style.Stroke({
+                              color: '#ffcc33',
+                              width: 2
+                            }),
+                            image: new ol.style.Circle({
+                              radius: 7,
+                              fill: new ol.style.Fill({
+                                color: '#ffcc33'
+                              })
+                            })
+                          })
+                        });
+
+
+
+                        /**
+                         * Currently drawed feature
+                         * @type {ol.Feature}
+                         */
+                        var sketch;
+
+
+                        /**
+                         * Element for currently drawed feature
+                         * @type {Element}
+                         */
+                        var sketchElement;
+
+
+                        /**
+                         * handle pointer move
+                         * @param {Event} evt
+                         */
+                        var mouseMoveHandler = function(evt) {
+                          if (sketch) {
+                            var output;
+                            var geom = (sketch.getGeometry());
+
+                              output = formatLength( /** @type {ol.geom.LineString} */ (geom));
+                              console.log(output);
+
+                            sketchElement.innerHTML = output;
+                          }
+                        };
+
+                        //EL DRAMA ESTA ACA ABAJO. EL EVENTO MOUSEMOVE ES DE JQUERY. PROBABLEMENTE SI LO INCLUIS SOLUCIONAS
+                        // PROBLEMA. AHI ANDA CON CADA CLICK.
+
+                        map.addEventListener('click',mouseMoveHandler);
+                        //map.addEventListener('mousemove', mouseMoveHandler);
+
+
+                        //var typeSelect = document.getElementById('type');
+
+                        var draw; // global so we can remove it later
+                        function addInteraction() {
+                          var type = "LineString";
+                          draw = new ol.interaction.Draw({
+                            source: source,
+                            type: /** @type {ol.geom.GeometryType} */ (type)
+                          });
+                          map.addInteraction(draw);
+
+                      draw.on('drawstart',
+                          function(evt) {
+                            //set sketch
+                            sketch = evt.feature;
+                            sketchElement = document.createElement('li');
+                            var outputList = document.getElementById('measureOutput');
+
+                            if (outputList.childNodes) {
+                              outputList.insertBefore(sketchElement, outputList.firstChild);
+                            } else {
+                              outputList.appendChild(sketchElement);
+                            }
+                          }, this);
+
+                      draw.on('drawend',
+                          function(evt) {
+                            // unset sketch
+                            sketch = null;
+                            sketchElement = null;
+                          }, this);
+                    }
+
+
+                        /**
+                         * Let user change the geometry type.
+                         * @param {Event} e Change event.
+                         */
+                        /*typeSelect.onchange = function(e) {
+                          map.removeInteraction(draw);
+                          addInteraction();
+                        };*/
+
+
+                        /**
+                         * format length output
+                         * @param {ol.geom.LineString} line
+                         * @return {string}
+                         */
+                        var formatLength = function(line) {
+
+                          var length = Math.round(line.getLength() * 150000);  
+                          //var length = Math.round(line.getLength() * 100) / 100;
+                          var output;
+                          if (length > 100) {
+                            output = (Math.round(length / 1000 * 100) / 100) +
+                                ' ' + 'km';
+                          } else {
+                            output = (Math.round(length * 100) / 100) +
+                                ' ' + 'm';
+                          }
+                          return output;
+                        };
+                            addInteraction();
+
+                        }
+
+
+            
         
-    var source = new ol.source.Vector();
-
-    var vector = new ol.layer.Vector({
-      source: source,
-      style: new ol.style.Style({
-        fill: new ol.style.Fill({
-          color: 'rgba(255, 255, 255, 0.2)'
-        }),
-        stroke: new ol.style.Stroke({
-          color: '#ffcc33',
-          width: 2
-        }),
-        image: new ol.style.Circle({
-          radius: 7,
-          fill: new ol.style.Fill({
-            color: '#ffcc33'
-          })
-        })
-      })
-    });
-    
-    
-
-    /**
-     * Currently drawed feature
-     * @type {ol.Feature}
-     */
-    var sketch;
-
-
-    /**
-     * Element for currently drawed feature
-     * @type {Element}
-     */
-    var sketchElement;
-
-
-    /**
-     * handle pointer move
-     * @param {Event} evt
-     */
-    var mouseMoveHandler = function(evt) {
-      if (sketch) {
-        var output;
-        var geom = (sketch.getGeometry());
-        
-          output = formatLength( /** @type {ol.geom.LineString} */ (geom));
-          console.log(output);
-        
-        sketchElement.innerHTML = output;
-      }
-    };
-
-    //EL DRAMA ESTA ACA ABAJO. EL EVENTO MOUSEMOVE ES DE JQUERY. PROBABLEMENTE SI LO INCLUIS SOLUCIONAS
-    // PROBLEMA. AHI ANDA CON CADA CLICK.
-
-    map.addEventListener('click',mouseMoveHandler);
-    //map.addEventListener('mousemove', mouseMoveHandler);
-
-
-    //var typeSelect = document.getElementById('type');
-
-    var draw; // global so we can remove it later
-    function addInteraction() {
-      var type = "LineString";
-      draw = new ol.interaction.Draw({
-        source: source,
-        type: /** @type {ol.geom.GeometryType} */ (type)
-      });
-      map.addInteraction(draw);
-
-  draw.on('drawstart',
-      function(evt) {
-        //set sketch
-        sketch = evt.feature;
-        sketchElement = document.createElement('li');
-        var outputList = document.getElementById('measureOutput');
-        
-        if (outputList.childNodes) {
-          outputList.insertBefore(sketchElement, outputList.firstChild);
-        } else {
-          outputList.appendChild(sketchElement);
-        }
-      }, this);
-
-  draw.on('drawend',
-      function(evt) {
-        // unset sketch
-        sketch = null;
-        sketchElement = null;
-      }, this);
-}
-
-
-    /**
-     * Let user change the geometry type.
-     * @param {Event} e Change event.
-     */
-    /*typeSelect.onchange = function(e) {
-      map.removeInteraction(draw);
-      addInteraction();
-    };*/
-
-
-    /**
-     * format length output
-     * @param {ol.geom.LineString} line
-     * @return {string}
-     */
-    var formatLength = function(line) {
-      
-      var length = Math.round(line.getLength() * 150000);  
-      //var length = Math.round(line.getLength() * 100) / 100;
-      var output;
-      if (length > 100) {
-        output = (Math.round(length / 1000 * 100) / 100) +
-            ' ' + 'km';
-      } else {
-        output = (Math.round(length * 100) / 100) +
-            ' ' + 'm';
-      }
-      return output;
-    };
-        addInteraction();
-
-    }
 
 
     
