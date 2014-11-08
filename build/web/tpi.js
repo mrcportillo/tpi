@@ -48,7 +48,54 @@
     capas[45]='veg_hidrofila';
     capas[46]='veg_suelo_desnudo';
     capas[47]='vias_secundarias';
-
+    var capasnombres = new Array();
+    capasnombres[1]='Actividades Agropecuarias';
+    capasnombres[2]='Actividades Economicas';
+    capasnombres[3]='Complejo de energia ene.';
+    capasnombres[4]='Curso de agua hid.';
+    capasnombres[5]='Curvas de nivel';
+    capasnombres[6]='Edificio const. turisticas';
+    capasnombres[7]='Edificio deporte y esparcimiento';
+    capasnombres[8]='Edificio educacion';
+    capasnombres[9]='Edificio de salud ips';
+    capasnombres[10]='Edificio de seguridad ips';
+    capasnombres[11]='Edificio publico ips';
+    capasnombres[12]='Edificios ferroviarios';
+    capasnombres[13]='Edificios religiosos';
+    capasnombres[14]='Ejido';
+    capasnombres[15]='Espejo de agua hid.';
+    capasnombres[16]='Estructuras portuarias';
+    capasnombres[17]='Infraestructura aeroportuaria';
+    capasnombres[18]='Infraestructura hidro.';
+    capasnombres[19]='Isla';
+    capasnombres[20]='Limite politico administrativo';
+    capasnombres[21]='Localidades';
+    capasnombres[22]='Líneas de conducción ene.';
+    capasnombres[23]='Marcas y señales';
+    capasnombres[24]='Muro embalse';
+    capasnombres[25]='Obra de comunicación';
+    capasnombres[26]='Obra portuaria';
+    capasnombres[27]='Otras edificaciones';
+    capasnombres[28]='Pais limitrofes';
+    capasnombres[29]='Provincias';
+    capasnombres[30]='Puente red vial puntos';
+    capasnombres[31]='Puntos de alturas topograficas';
+    capasnombres[32]='Puntos del terreno';
+    capasnombres[33]='Red ferroviaria';
+    capasnombres[34]='Red vial';
+    capasnombres[35]='Salvado de obstaculo';
+    capasnombres[36]='Señalizaciones';
+    capasnombres[37]='Sue. congelado';
+    capasnombres[38]='Sue. consolidado';
+    capasnombres[39]='Sue. costero';
+    capasnombres[40]='Sue. hidromorfologico';
+    capasnombres[41]='Sue. no consolidado';
+    capasnombres[42]='Veg. arborea';
+    capasnombres[43]='Veg. arbustiva';
+    capasnombres[44]='Veg. cultivos';
+    capasnombres[45]='Veg. hidrofila';
+    capasnombres[46]='Veg. suelo desnudo';
+    capasnombres[47]='Vias Secundarias';
     //funcion que devuelve un arreglo de capas
 
     var layer = new Array();
@@ -103,7 +150,7 @@
     str1 = '<h3>Capas</h3><br/>';
     //generar el string con codigo html para definir la seccion de capas
     for (i=1;i<=47;i++) {
-        str1 = str1+'<input type="checkbox" id="check_layer_'+i+'"><label for="check_layer_'+i+'">'+capas[i]+'</label><br/>';
+        str1 = str1+'<input type="checkbox" id="check_layer_'+i+'"><label for="check_layer_'+i+'">'+capasnombres[i]+'</label><br/>';
 
     }
     //insertar el string en el documento html
@@ -169,10 +216,11 @@ function medir(){
       }
     };
 
-    //EL DRAMA ESTA ACA ABAJO. EL EVENTO MOUSEMOVE ES DE JQUERY. PROBABLEMENTE SI LO INCLUIS SOLUCIONAS
-    // PROBLEMA. AHI ANDA CON CADA CLICK.
+    
 
-    map.addEventListener('click',mouseMoveHandler);
+    $(map.getViewport()).on('mousemove', mouseMoveHandler);
+
+    //map.addEventListener('click',mouseMoveHandler);
     //map.addEventListener('mousemove', mouseMoveHandler);
 
 
