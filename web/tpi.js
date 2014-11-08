@@ -272,13 +272,27 @@ function agregarCapa(){
             type: /** @type {ol.geom.GeometryType} */ (type)
         });
         map.addInteraction(draw);
-        draw.on('drawend',
-        function(evt) {
-            // unset sketch
-            wkt = 'POINT';
-        }, this);
+        
+
+
+         draw.on('drawend',
+                          function(evt) {
+                            // unset sketch
+                            wkt = 'POINT';
+                            $("#crearcapa").show();
+                          }, this);
     }
+
+    addInteraction();
     
+
+
+
+
+}
+
+function agregarElemento() {
+    capanuevanombre = document.getElementById('texto').value;
     window.open('php/crearcapa.php?capanombre='+capanuevanombre);
     var capa = new ol.layer.Image({
         visible: true,
@@ -290,14 +304,7 @@ function agregarCapa(){
         })
     })
     layer[layer.length+1] = capa;
-    addInteraction();
-
-
-
-}
-
-function agregarElemento() {
-
+    
 
 
 }
