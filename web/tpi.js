@@ -290,7 +290,7 @@ function agregarCapa(){
                           function(evt) {
                             // unset sketch
                             wkt = 'POINT';
-                            
+                            $("#crearcapa").show();
                           }, this);
 
                         }
@@ -308,6 +308,7 @@ function agregarElemento() {
 
 
 }
+
 
 
 

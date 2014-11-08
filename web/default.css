@@ -58,6 +58,10 @@
 		float: right;
 
 	}
+	#crearcapa{
+		display: none;
+
+	}
 
 
 	button.ol-zoom-in.ol-has-tooltip{
