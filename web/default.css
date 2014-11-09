@@ -71,6 +71,10 @@
 		
 		 
 	}
+	li:hover{
+		background-color: blue;
+
+	}
 
 	
 	
@@ -487,7 +491,7 @@
 		float:right;
 		overflow: hidden;
 		width: 1000px;
-		padding: 8em 0px 8em 100px;
+		padding: 0px 0px 8em 100px;
 		text-align: center;
 		color: rgba(0,0,0,0.6);
 	}
