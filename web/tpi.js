@@ -48,7 +48,6 @@ capas[44]='veg_cultivos';
 capas[45]='veg_hidrofila';
 capas[46]='veg_suelo_desnudo';
 capas[47]='vias_secundarias';
-capas[48]='capaprueba';
 var capasnombres = new Array();
 capasnombres[1]='Actividades Agropecuarias';
 capasnombres[2]='Actividades Economicas';
@@ -97,12 +96,11 @@ capasnombres[44]='Veg. cultivos';
 capasnombres[45]='Veg. hidrofila';
 capasnombres[46]='Veg. suelo desnudo';
 capasnombres[47]='Vias Secundarias';
-capasnombres[48]='capa preueba';
 //funcion que devuelve un arreglo de capas
 
 var layer = new Array();
 function listarcapas(){
-    var i = 1;
+    var i = 1;/*
     var capa = new ol.layer.Tile({
         title: "Global Imagery",
         source: new ol.source.TileWMS({
@@ -113,10 +111,13 @@ function listarcapas(){
           }
         })
       })
-
+*/
+   var capa = new ol.layer.Tile({
+         source: new ol.source.MapQuest({layer: 'sat'})
+   })
     layer[0] = capa;
 
-    for (i=1;i<=48;i++) {
+    for (i=1;i<=47;i++) {
       var capa = new ol.layer.Image({
         visible: false,
         title: capas[i],
@@ -141,9 +142,11 @@ var map = new ol.Map({
     target: 'map',
     layers: listarcapas(),
     view: new ol.View({
-      projection: 'EPSG:4326',
+      //projection: 'EPSG:4326',
+      //center: [-59, -27.5],
+      //zoom: 4
       center: [-59, -27.5],
-      zoom: 4
+    zoom: 4
     })
 });
     
@@ -155,7 +158,7 @@ function cargarpanel(){
     var node = document.getElementById('panel');
     str1 = '<h3>Capas</h3><br/>';
     //generar el string con codigo html para definir la seccion de capas
-    for (i=1;i<=(layer.length-1);i++) {
+    for (i=1;i<=(capasnombres.length-1);i++) {
         str1 = str1+'<input type="checkbox" id="check_layer_'+i+'"><label for="check_layer_'+i+'">'+capasnombres[i]+'</label><br/>';
 
     }
@@ -174,7 +177,7 @@ function cargarpanel(){
 
 function medir(){
     var source = new ol.source.Vector();
-    var vector = new ol.layer.Vector({
+    var vectormedicion = new ol.layer.Vector({
         source: source,
         style: new ol.style.Style({
             fill: new ol.style.Fill({
@@ -196,6 +199,7 @@ function medir(){
     * Currently drawed feature
     * @type {ol.Feature}
     */
+   map.addLayer(vectormedicion);
     var sketch;
     /**
     * Element for currently drawed feature
@@ -274,8 +278,8 @@ function medir(){
      * @return {string}
      */
     var formatLength = function(line) {
-        var length = Math.round(line.getLength() * 150000);
-        //var length = Math.round(line.getLength() * 100) / 100;
+        //var length = Math.round(line.getLength() * 150000);
+        var length = Math.round(line.getLength() * 100) / 100;
         var output;
         if (length > 100) {
             output = (Math.round(length / 1000 * 100) / 100) +
@@ -313,8 +317,9 @@ function agregarelemento() {
         })
     })
     //map.addLayer(capa);
-    layer[layer.length] = capa;
+    //layer[layer.length] = capa;
     capasnombres[capasnombres.length] = capanuevanombre;
+    capas[capas.length] = capanuevanombre;
     cargarpanel();    
 
 
@@ -364,32 +369,38 @@ function agregarelementocapa(){
     
     addInteraction();
     map.addLayer(vector);
+    layer[layer.length]=vector;
     map.on('click', function(evt) {
         var coordenadaspunto = evt.coordinate;
         coordenadas='POINT('+coordenadaspunto[0]+' ' +coordenadaspunto[1]+')'
         
 
     });
-    
+    var node = document.getElementById('agregarelementocapa');
+    var str ='<label>nombre</label><input id="atributocapa" type="text"/><button onclick="agregaratributocapa(this)" id="ok" value="ok">aceptar</button><button  id="cancel" value="cancel">cancelar</button><select id="nombrecapaatributo">';
+
+    //generar el string con codigo html para definir la seccion de capas
+    for (i=1;i<=(capasnombres.length-1);i++) {
+        str = str+'<option value='+i+'>'+capasnombres[i]+'</option>';
+
+    }
+    str = str + '</select>';
+    //insertar el string en el documento html
+    node.innerHTML= str;
+
+                    
+                    
+                    
+                    
 }
 
 function agregaratributocapa(){
     atributonombre = document.getElementById('atributocapa').value;
-    
-    console.log(coordenadas);
-    window.open('php/agregaratributoscapa.php?capanombre='+capasnombres[capasnombres.length-1]+'&atributonombre='+atributonombre+'&coordenadas='+coordenadas);
+    atributocapa = document.getElementById('nombrecapaatributo');
+    console.log(capas[atributocapa.value]);
+    window.open('php/agregaratributoscapa.php?capanombre='+capas[atributocapa.value]+'&atributonombre='+atributonombre+'&coordenadas='+coordenadas);
        // window.open('php/agregaratributoscapa.php?capanombre=capaprueba&atributonombre='+atributonombre+'&coordenadas='+coordenadas);
-    map.removeLayer(vector);
-    var capa = new ol.layer.Image({
-        visible: true,
-        title: capasnombres[capasnombres.length-1],
-        source: new ol.source.ImageWMS({
-            url: '/cgi-bin/qgis_mapserv.fcgi?map=/home/user/data/gisdatatpi/tpi.qgs',
-            //url: '/cgi-bin/qgis_mapserv.fcgi?map=/home/user/proyectoqgislaboratorioqgis.qgs',
-            params: {LAYERS: capasnombres[capasnombres.length-1]}
-        })
-    })
-    map.addLayer(capa);
+    
     cargarpanel();
 }
    
