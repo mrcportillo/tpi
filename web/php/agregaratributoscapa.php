@@ -1,9 +1,9 @@
 <?php
 
 header('Content-type: text/html; charset=utf-8;');
-//$wkt =  $_GET['wkt'];
+$coordenadas =  $_GET['coordenadas'];
 $capanombre = $_GET['capanombre'];
-$atributo = $_GET['atributo'];
+$atributo = $_GET['atributonombre'];
 
 
 $link= pg_connect("host=localhost user=user password=user dbname=Tpi");
@@ -12,7 +12,7 @@ $link= pg_connect("host=localhost user=user password=user dbname=Tpi");
 
 $queryCrear=<<<EOD
 INSERT INTO public."$capanombre"
-VALUES('$atributo'
+VALUES('$atributo',ST_geomfromtext('$coordenadas',4326)
 ) 
 ;
       

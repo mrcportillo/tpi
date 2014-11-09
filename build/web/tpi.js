@@ -48,6 +48,7 @@ capas[44]='veg_cultivos';
 capas[45]='veg_hidrofila';
 capas[46]='veg_suelo_desnudo';
 capas[47]='vias_secundarias';
+capas[48]='capaprueba';
 var capasnombres = new Array();
 capasnombres[1]='Actividades Agropecuarias';
 capasnombres[2]='Actividades Economicas';
@@ -96,6 +97,7 @@ capasnombres[44]='Veg. cultivos';
 capasnombres[45]='Veg. hidrofila';
 capasnombres[46]='Veg. suelo desnudo';
 capasnombres[47]='Vias Secundarias';
+capasnombres[48]='capa preueba';
 //funcion que devuelve un arreglo de capas
 
 var layer = new Array();
@@ -114,7 +116,7 @@ function listarcapas(){
 
     layer[0] = capa;
 
-    for (i=1;i<=47;i++) {
+    for (i=1;i<=48;i++) {
       var capa = new ol.layer.Image({
         visible: false,
         title: capas[i],
@@ -290,10 +292,39 @@ function medir(){
 
 
 
+//funcion que muestra el texbox para introducir el nombre de la capa
+function agregarcapa(){
+  
+   $("#crearcapa").show(); 
 
-function agregarCapa(){
+}
+
+//funcion que agrega capa a la bd y al listado de capas
+function agregarelemento() {
+    capanuevanombre = document.getElementById('texto').value;
+    window.open('php/crearcapa.php?capanombre='+capanuevanombre);
+    var capa = new ol.layer.Image({
+        visible: true,
+        title: capanuevanombre,
+        source: new ol.source.ImageWMS({
+            url: '/cgi-bin/qgis_mapserv.fcgi?map=/home/user/data/gisdatatpi/tpi.qgs',
+            //url: '/cgi-bin/qgis_mapserv.fcgi?map=/home/user/proyectoqgislaboratorioqgis.qgs',
+            params: {LAYERS: capanuevanombre}
+        })
+    })
+    //map.addLayer(capa);
+    layer[layer.length] = capa;
+    capasnombres[capasnombres.length] = capanuevanombre;
+    cargarpanel();    
+
+
+
+}
+var vector;
+var coordenadas;
+function agregarelementocapa(){
     var source = new ol.source.Vector();
-    var vector = new ol.layer.Vector({
+    vector = new ol.layer.Vector({
         source: source,
         style: new ol.style.Style({
             fill: new ol.style.Fill({
@@ -310,9 +341,8 @@ function agregarCapa(){
                 })
             })
         })
-    });
-
-
+      
+    });    
     var draw; // global so we can remove it later
     function addInteraction() {
         var type = "Point";
@@ -320,103 +350,46 @@ function agregarCapa(){
             source: source,
             type: /** @type {ol.geom.GeometryType} */ (type)
         });
-        map.addInteraction(draw);
         
-
-
-         draw.on('drawend',
+        map.addInteraction(draw);  
+        draw.on('drawend',
                           function(evt) {
                             // unset sketch
                             wkt = 'POINT';
-                            $("#crearcapa").show();
+                            $("#agregarelementocapa").show();
+                                         
+
                           }, this);
     }
-
-    addInteraction();
     
+    addInteraction();
+    map.addLayer(vector);
+    map.on('click', function(evt) {
+        var coordenadaspunto = evt.coordinate;
+        coordenadas='POINT('+coordenadaspunto[0]+' ' +coordenadaspunto[1]+')'
+        
 
-
-
-
+    });
+    
 }
-//funcion que agrega capa a la bd y al listado de capas
-function agregarElemento() {
-    capanuevanombre = document.getElementById('texto').value;
-    window.open('php/crearcapa.php?capanombre='+capanuevanombre);
+
+function agregaratributocapa(){
+    atributonombre = document.getElementById('atributocapa').value;
+    
+    console.log(coordenadas);
+    window.open('php/agregaratributoscapa.php?capanombre='+capasnombres[capasnombres.length-1]+'&atributonombre='+atributonombre+'&coordenadas='+coordenadas);
+       // window.open('php/agregaratributoscapa.php?capanombre=capaprueba&atributonombre='+atributonombre+'&coordenadas='+coordenadas);
+    map.removeLayer(vector);
     var capa = new ol.layer.Image({
         visible: true,
-        title: capanuevanombre,
+        title: capasnombres[capasnombres.length-1],
         source: new ol.source.ImageWMS({
             url: '/cgi-bin/qgis_mapserv.fcgi?map=/home/user/data/gisdatatpi/tpi.qgs',
             //url: '/cgi-bin/qgis_mapserv.fcgi?map=/home/user/proyectoqgislaboratorioqgis.qgs',
-            params: {LAYERS: capanuevanombre}
+            params: {LAYERS: capasnombres[capasnombres.length-1]}
         })
     })
     map.addLayer(capa);
-    layer[layer.length] = capa;
-    capasnombres[capasnombres.length] = capanuevanombre;
-    cargarpanel();    
-
-
-
+    cargarpanel();
 }
-
-
-
-
-
-
-
-
- var consultar = function(coordinate){
-
-
-  console.log(coordinate);
-  if(coordinate.length==2){
-    //es un punto [lon,lat]
-    var wkt='POINT('+coordinate[0]+' ' +coordinate[1]+')';
-  }else{
-    //es un poligono en la forma [ [ [lon,lat],[lon,lat],....] ]
-    var wkt = 'POLYGON((';
-    for(var i=0;i<coordinate[0].length - 1;i++){
-      wkt+=coordinate[0][i][0]+ ' ' + coordinate[0][i][1]+ ',';
-    }
-    wkt+=coordinate[0][0][0]+' '+coordinate[0][0][1]+'))'
-  }
-  console.log(wkt);
-  //+ '&'capa?='capa'+capa //
-  window.open('php/crearcapa.php?wkt='+wkt);return;
-  };
-
-
-   var clickEnMapa = function(evt){
-  console.log(evt.coordinate);
-
-  consultar(evt.coordinate);
-      };
-
-      //function para "cambiar" de interaction en function del value de los radios
-      var seleccionarControl = function(el){
-        if(el.value=="consulta"){
-    map.addInteraction(selectInteraction);
-    map.on('click',clickEnMapa);
-
-  }else if(el.value=="navegacion"){
-    map.removeInteraction(selectInteraction);
-    map.un('click',clickEnMapa);
-  }
-  console.log(el.value);
-      };
-
-
-
-
-
-
-
-
-
-
-
-
-
+   

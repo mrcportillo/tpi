@@ -41,8 +41,8 @@ Released   : 20140207
 				<!--<li> <img src="images/measure.png"/>  </li>!-->
                                 
 				<li class="current_page_item" onclick="medir(this)"><img src="images/measure.png"/><a href="#"  accesskey="1" title="">Distancia</a></li>
-				<li><a href="#" accesskey="2" title="">Nueva Capa</a></li>
-				<li><a href="#" accesskey="3" title="">Viva</a></li>
+				<li><a href="#" onclick="agregarcapa(this)" accesskey="2" title="">Nueva Capa</a></li>
+				<li><a href="#" onclick="agregarelementocapa(this)" accesskey="3" title="">Agregar Elemento a capa</a></li>
 				<li><a href="#" accesskey="4" title="">La</a></li>
 				
 			</ul>
@@ -60,8 +60,29 @@ Released   : 20140207
 			 
 			
 		</div>
-		<div id="panel">                            </div>
+		<div id="panel"> </div>
+		<form id="crearcapa">
+			<label>nombre</label>
+			<input id="texto" type="text"  />
+			<button onclick="agregarelemento(this)" id="ok" value="ok">aceptar</button>
+			<button  id="cancel" value="cancel">cancelar</button>
+
+		</form>
+                <form id="agregarelementocapa">
+			<label>nombre</label>
+			<input id="atributocapa" type="text"  />
+			<button onclick="agregaratributocapa(this)" id="ok" value="ok">aceptar</button>
+			<button  id="cancel" value="cancel">cancelar</button>
+
+		</form>
+
 	</div>
+
+	
+
+
+
+	
 
 </div>
 <div id="copyright" class="container">

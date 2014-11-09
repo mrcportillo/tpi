@@ -62,6 +62,9 @@
 		display: none;
 
 	}
+        #agregarelementocapa{
+                display: none;
+        }
 
 
 	button.ol-zoom-in.ol-has-tooltip{
