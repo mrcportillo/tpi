@@ -300,7 +300,7 @@ function medir(){
 //funcion que agrega capa a la bd y al listado de capas
 function agregarelemento() {
 
-    capanuevanombre = document.getElementById('texto').value;
+    capanuevanombre = $("#crearcapa").find('input[name="texto"]').val();
     console.log(capanuevanombre);
     window.open('php/crearcapa.php?capanombre='+capanuevanombre);
     var capa = new ol.layer.Image({
@@ -322,7 +322,7 @@ function agregarelemento() {
 
 }
 //funcion que agrega capa a la bd y al listado de capas
-function agregarelemento() {
+
 
     var dialog;
     var form;
@@ -347,8 +347,7 @@ function agregarelemento() {
       }
     });
 
-    
-    }
+  
 
 
 
