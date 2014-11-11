@@ -347,7 +347,7 @@ function agregarelemento() {
       }
     });
 
-  
+
 
 
 
@@ -388,7 +388,6 @@ function agregarcapa(){
 
  
 }
-
 
 
 var vector;
