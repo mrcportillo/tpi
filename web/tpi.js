@@ -292,6 +292,8 @@ function medir(){
     };
     addInteraction();
 
+    
+
 };
     var dialog;
     var form;
@@ -302,8 +304,7 @@ function medir(){
       modal: true,
       buttons: {
         agregarcapa: function() {
-        nombre = $("#texto").val();  
-        agregarelemento(nombre);
+        agregarelemento(),
         dialog.dialog( "close" );   
         
 
@@ -317,6 +318,7 @@ function medir(){
       }
     });
 
+    
 
 
 
@@ -330,9 +332,11 @@ function agregarcapa(){
 
 
 //funcion que agrega capa a la bd y al listado de capas
-function agregarelemento(capanombre) {
-    //capanuevanombre = document.getElementById('texto').value;
-    window.open('php/crearcapa.php?capanombre='+capanombre);
+function agregarelemento() {
+
+    capanuevanombre = document.getElementById('texto').value;
+    console.log(capanuevanombre);
+    window.open('php/crearcapa.php?capanombre='+capanuevanombre);
     var capa = new ol.layer.Image({
         visible: true,
         title: capanuevanombre,
