@@ -359,27 +359,24 @@ function agregarcapa(){
 }
 
 
-var dialog;
-var form;
-dialog = $( "#crearcapa" ).dialog({
+var dialog2;
+var form2;
+dialog2 = $( "#agregarelementocapa" ).dialog({
     autoOpen: false,
     height: 300,
     width: 350,
     modal: true,
     buttons: {
-    agregarcapa: function() {
-        nombre = $("#texto");
-        console.log(nombre);
-        agregarelemento(nombre);
-        
-        dialog.dialog( "close" );   
+    agregarelementoacapa: function() {
+        agregaratributocapa(),
+        dialog2.dialog( "close" );   
     },
     Cancelar: function() {
-        dialog.dialog( "close" );
+        dialog2.dialog( "close" );
     }
     },
     close: function() {
-        dialog.dialog( "close" );
+        dialog2.dialog( "close" );
     }
 });
 //funcion que muestra el texbox para introducir el nombre de la capa
@@ -426,7 +423,7 @@ function agregarelementocapa(){
                           function(evt) {
                             // unset sketch
                             wkt = 'POINT';
-                            $("#agregarelementocapa").show();
+                            dialog2.dialog( "open" );;
                                          
 
                           }, this);
@@ -442,7 +439,7 @@ function agregarelementocapa(){
 
     });
     var node = document.getElementById('agregarelementocapa');
-    var str ='<label>nombre</label><input id="atributocapa" type="text"/><button onclick="agregaratributocapa(this)" id="ok" value="ok">aceptar</button><button  id="cancel" value="cancel">cancelar</button><select id="nombrecapaatributo">';
+    var str ='<label>nombre</label><input id="atributocapa" type="text"/><select id="nombrecapaatributo">';
 
     //generar el string con codigo html para definir la seccion de capas
     for (i=1;i<=(capasnombres.length-1);i++) {
@@ -459,13 +456,33 @@ function agregarelementocapa(){
                     
 }
 
+/*function mostrarlista() {
+    var node = document.getElementById('agregarelementocapa');
+    var str ='<label>nombre</label><input id="atributocapa" type="text"/><button onclick="agregaratributocapa(this)" id="ok" value="ok">aceptar</button><button  id="cancel" value="cancel">cancelar</button><select id="nombrecapaatributo">';
+
+    //generar el string con codigo html para definir la seccion de capas
+    for (i=1;i<=(capasnombres.length-1);i++) {
+        str = str+'<option value='+i+'>'+capasnombres[i]+'</option>';
+
+    }
+    str = str + '</select>';
+    //insertar el string en el documento html
+    node.innerHTML= str;
+
+
+}
+*/
+
+
 function agregaratributocapa(){
     atributonombre = document.getElementById('atributocapa').value;
     atributocapa = document.getElementById('nombrecapaatributo');
     console.log(capas[atributocapa.value]);
+    console.log(atributonombre);
     window.open('php/agregaratributoscapa.php?capanombre='+capas[atributocapa.value]+'&atributonombre='+atributonombre+'&coordenadas='+coordenadas);
        // window.open('php/agregaratributoscapa.php?capanombre=capaprueba&atributonombre='+atributonombre+'&coordenadas='+coordenadas);
     
     cargarpanel();
+    
 }
    
