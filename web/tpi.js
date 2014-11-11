@@ -387,6 +387,7 @@ function agregarcapa(){
 }
 
 
+
 var vector;
 var coordenadas;
 function agregarelementocapa(){
