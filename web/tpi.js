@@ -293,15 +293,40 @@ function medir(){
     addInteraction();
 
 };
+    var dialog;
+    var form;
+   dialog = $( "#crearcapa" ).dialog({
+      autoOpen: false,
+      height: 300,
+      width: 350,
+      modal: true,
+      buttons: {
+        agregarcapa: function() {
+        agregarelemento();
+        dialog.dialog( "close" );   
+        
+
+    },
+        Cancelar: function() {
+          dialog.dialog( "close" );
+        }
+      },
+      close: function() {
+        dialog.dialog( "close" );
+      }
+    });
+
+
 
 
 
 //funcion que muestra el texbox para introducir el nombre de la capa
 function agregarcapa(){
-  
-   $("#crearcapa").show(); 
+    dialog.dialog( "open" );
 
+ 
 }
+
 
 //funcion que agrega capa a la bd y al listado de capas
 function agregarelemento() {

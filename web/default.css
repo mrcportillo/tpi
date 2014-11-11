@@ -72,9 +72,16 @@
 		 
 	}
 	li:hover{
-		background-color: blue;
+		background-color: #DC572E;
 
 	}
+	fieldset{
+		padding:0; border:0; margin-top:25px; 
+
+	}
+	.ui-dialog .ui-state-error { padding: .3em; }
+
+	input.text { margin-bottom:12px; width:95%; padding: .4em; }
 
 	
 	
@@ -401,7 +408,7 @@
 	#map{
 		float: left;
 		width: 500px;
-		height: 900px;
+		height: 500px;
 
 
 
@@ -470,7 +477,7 @@
 
 	#wrapper2
 	{
-		height:1200px;
+		height:800px;
 		background: #DC572E;
 	}
 
