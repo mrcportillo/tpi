@@ -57,8 +57,9 @@
 	#controles{
 		float: right;
 
-	}
-        
+	}#crearcapa{
+                display: none;
+        }
         #agregarelementocapa{
                 display: none;
         }
@@ -356,7 +357,7 @@
 	#panel{
 		background-color:#FFFFCC;
 		height: 500px;
-		padding-right: 20px;
+		
 		text-align:left;
 		float:right;
 		overflow: auto;
@@ -404,9 +405,9 @@
 /*********************************************************************************/
 	#map{
 		float: left;
-		width: 500px;
+		width: 1000px;
 		height: 500px;
-
+		
 
 
 		
@@ -474,7 +475,7 @@
 
 	#wrapper2
 	{
-		height:800px;
+		height:600px;
 		background: #DC572E;
 	}
 
@@ -492,10 +493,10 @@
 
 	#welcome
 	{
-		float:right;
+		
 		overflow: hidden;
 		width: 1000px;
-		padding: 0px 0px 8em 100px;
+		padding: 0px 0px 9em 10px;
 		text-align: center;
 		color: rgba(0,0,0,0.6);
 	}
