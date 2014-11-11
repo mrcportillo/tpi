@@ -292,14 +292,10 @@ function medir(){
     };
     addInteraction();
 
-    
-
 };
-
 
 //funcion que agrega capa a la bd y al listado de capas
 function agregarelemento() {
-
     capanuevanombre = document.getElementById('texto').value;
     console.log(capanuevanombre);
     window.open('php/crearcapa.php?capanombre='+capanuevanombre);
@@ -321,45 +317,6 @@ function agregarelemento() {
 
 
 }
-//funcion que agrega capa a la bd y al listado de capas
-function agregarelemento() {
-
-    var dialog;
-    var form;
-   dialog = $( "#crearcapa" ).dialog({
-      autoOpen: false,
-      height: 300,
-      width: 350,
-      modal: true,
-      buttons: {
-        agregarcapa: function() {
-        agregarelemento(),
-        dialog.dialog( "close" );   
-        
-
-    },
-        Cancelar: function() {
-          dialog.dialog( "close" );
-        }
-      },
-      close: function() {
-        dialog.dialog( "close" );
-      }
-    });
-
-    
-    }
-
-
-
-//funcion que muestra el texbox para introducir el nombre de la capa
-function agregarcapa(){
-    dialog.dialog( "open" );
-
- 
-}
-
-
 var dialog;
 var form;
 dialog = $( "#crearcapa" ).dialog({
@@ -371,8 +328,8 @@ dialog = $( "#crearcapa" ).dialog({
     agregarcapa: function() {
         nombre = $("#texto");
         console.log(nombre);
-        agregarelemento(nombre);
-        
+        //agregarelemento(nombre);
+        agregarelemento();
         dialog.dialog( "close" );   
     },
     Cancelar: function() {
