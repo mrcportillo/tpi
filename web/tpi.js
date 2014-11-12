@@ -96,9 +96,13 @@ capasnombres[44]='Veg. cultivos';
 capasnombres[45]='Veg. hidrofila';
 capasnombres[46]='Veg. suelo desnudo';
 capasnombres[47]='Vias Secundarias';
-//funcion que devuelve un arreglo de capas
 
+var vectormedicion; //vector
+var vectoratributo; //vector
+var dibujomedicion; //interaccion
+var dibujoatributo; //interaccion
 var layer = new Array();
+//funcion que devuelve un arreglo de capas
 function listarcapas(){
     var i = 1;/*
     var capa = new ol.layer.Tile({
@@ -176,8 +180,11 @@ function cargarpanel(){
 }
 
 function medir(){
+    //remover capas y interacciones
+    map.removeInteraction(dibujoatributo);
+    //map.removeLayer(vectoratributo);
     var source = new ol.source.Vector();
-    var vectormedicion = new ol.layer.Vector({
+    vectormedicion = new ol.layer.Vector({
         source: source,
         style: new ol.style.Style({
             fill: new ol.style.Fill({
@@ -233,16 +240,15 @@ function medir(){
 
     //var typeSelect = document.getElementById('type');
 
-    var draw; // global so we can remove it later
     function addInteraction() {
         var type = "LineString";
-        draw = new ol.interaction.Draw({
+        dibujomedicion = new ol.interaction.Draw({
             source: source,
             type: /** @type {ol.geom.GeometryType} */ (type)
         });
-        map.addInteraction(draw);
+        map.addInteraction(dibujomedicion);
 
-        draw.on('drawstart',
+        dibujomedicion.on('drawstart',
         function(evt) {
             //set sketch
             sketch = evt.feature;
@@ -255,7 +261,7 @@ function medir(){
             }
         }, this);
 
-        draw.on('drawend',
+        dibujomedicion.on('drawend',
             function(evt) {
                 // unset sketch
                 sketch = null;
@@ -387,11 +393,14 @@ function agregarcapa(){
 }
 
 
-var vector;
 var coordenadas;
 function agregarelementocapa(){
+    //remover interacciones y capas de medicion
+    map.removeInteraction(dibujomedicion);
+    map.removeLayer(vectormedicion);
+    
     var source = new ol.source.Vector();
-    vector = new ol.layer.Vector({
+    vectoratributo = new ol.layer.Vector({
         source: source,
         style: new ol.style.Style({
             fill: new ol.style.Fill({
@@ -410,16 +419,15 @@ function agregarelementocapa(){
         })
       
     });    
-    var draw; // global so we can remove it later
     function addInteraction() {
         var type = "Point";
-        draw = new ol.interaction.Draw({
+        dibujoatributo = new ol.interaction.Draw({
             source: source,
             type: /** @type {ol.geom.GeometryType} */ (type)
         });
         
-        map.addInteraction(draw);  
-        draw.on('drawend',
+        map.addInteraction(dibujoatributo);  
+        dibujoatributo.on('drawend',
                           function(evt) {
                             // unset sketch
                             wkt = 'POINT';
@@ -430,11 +438,11 @@ function agregarelementocapa(){
     }
     
     addInteraction();
-    map.addLayer(vector);
-    layer[layer.length]=vector;
+    map.addLayer(vectoratributo);
+    layer[layer.length]=vectoratributo;
     map.on('click', function(evt) {
         var coordenadaspunto = evt.coordinate;
-        coordenadas='POINT('+coordenadaspunto[0]+' ' +coordenadaspunto[1]+')'
+        coordenadas='POINT('+coordenadaspunto[0]+' ' +coordenadaspunto[1]+')';
         
 
     });
