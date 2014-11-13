@@ -103,9 +103,19 @@ var dibujomedicion; //interaccion
 var dibujoatributo; //interaccion
 var layer = new Array();
 //funcion que devuelve un arreglo de capas
+var scaleLineControl = new ol.control.ScaleLine();
+   
 function listarcapas(){
-    var i = 1;/*
+    var i = 1;
+    /*
     var capa = new ol.layer.Tile({
+         controls: ol.control.defaults({
+        attributionOptions: /** @type {olx.control.AttributionOptions} / ({
+        collapsible: false})
+        }).extend([scaleLineControl]),
+        
+        //renderer: exampleNS.getRendererFromQueryString(),
+        target: map,
         title: "Global Imagery",
         source: new ol.source.TileWMS({
           url: 'http://maps.opengeo.org/geowebcache/service/wms',
@@ -115,10 +125,19 @@ function listarcapas(){
           }
         })
       })
-*/
+
+   */
    var capa = new ol.layer.Tile({
+       controls: ol.control.defaults({
+        attributionOptions: /** @type {olx.control.AttributionOptions} */ ({
+        collapsible: false})
+        }).extend([scaleLineControl]),
+        
+        //renderer: exampleNS.getRendererFromQueryString(),
+        target: map,
          source: new ol.source.MapQuest({layer: 'sat'})
    })
+   
     layer[0] = capa;
 
     for (i=1;i<=47;i++) {
@@ -290,7 +309,7 @@ function medir(){
         if (length > 100) {
             output = (Math.round(length / 1000 * 100) / 100) +
             ' ' + 'km';
-        } else {
+       } else {
             output = (Math.round(length * 100) / 100) +
             ' ' + 'm';
         }
@@ -305,7 +324,6 @@ function medir(){
 
 //funcion que agrega capa a la bd y al listado de capas
 function agregarelemento() {
-
     capanuevanombre = $("#crearcapa").find('input[name="texto"]').val();
     console.log(capanuevanombre);
     window.open('php/crearcapa.php?capanombre='+capanuevanombre);
@@ -359,6 +377,11 @@ function agregarelemento() {
 
 //funcion que muestra el texbox para introducir el nombre de la capa
 function agregarcapa(){
+    //remover capas e interacciones de atributos
+    map.removeInteraction(dibujoatributo);
+    //remover interacciones y capas de medicion
+    map.removeInteraction(dibujomedicion);
+    map.removeLayer(vectormedicion);
     dialog.dialog( "open" );
 
  
@@ -385,12 +408,6 @@ dialog2 = $( "#agregarelementocapa" ).dialog({
         dialog2.dialog( "close" );
     }
 });
-//funcion que muestra el texbox para introducir el nombre de la capa
-function agregarcapa(){
-    dialog.dialog( "open" );
-
- 
-}
 
 
 var coordenadas;
@@ -446,6 +463,7 @@ function agregarelementocapa(){
         
 
     });
+    cargarpanel();
     var node = document.getElementById('agregarelementocapa');
     var str ='<label>nombre</label><input id="atributocapa" type="text"/><select id="nombrecapaatributo">';
 
@@ -490,7 +508,7 @@ function agregaratributocapa(){
     window.open('php/agregaratributoscapa.php?capanombre='+capas[atributocapa.value]+'&atributonombre='+atributonombre+'&coordenadas='+coordenadas);
        // window.open('php/agregaratributoscapa.php?capanombre=capaprueba&atributonombre='+atributonombre+'&coordenadas='+coordenadas);
     
-    cargarpanel();
+    
     
 }
    
