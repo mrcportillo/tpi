@@ -101,6 +101,7 @@ var vectormedicion; //vector
 var vectoratributo; //vector
 var dibujomedicion; //interaccion
 var dibujoatributo; //interaccion
+var visibilidad; //array de links entre layers y checkboxs
 var layer = new Array();
 //funcion que devuelve un arreglo de capas
 var scaleLineControl = new ol.control.ScaleLine();
@@ -177,7 +178,7 @@ cargarpanel();
 //funcion que agrega capas al panel y asocia su checkbox
 
 function cargarpanel(){
-    var visibilidad = new Array();
+    visibilidad = new Array();
     var node = document.getElementById('panel');
     str1 = '<h3>Capas</h3><br/>';
     //generar el string con codigo html para definir la seccion de capas
@@ -193,7 +194,9 @@ function cargarpanel(){
         var visibilida = new ol.dom.Input(document.getElementById('check_layer_'+i+''));
         //creo un enlace entre el checkbox y mi capa
         //(propiedad del input, objeto, propiedad del objeto)
-        visibilida.bindTo('checked', map.getLayers().item(i), 'visible');
+       // visibilida.bindTo('checked', map.getLayers().item(i), 'visible');
+        visibilida.bindTo('checked', layer[i], 'visible');
+
         visibilidad[i]=visibilida;
     }
 }
@@ -337,14 +340,15 @@ function agregarelemento() {
         })
     })
     //map.addLayer(capa);
-    //layer[layer.length] = capa;
+    layer[layer.length] = capa;
     capasnombres[capasnombres.length] = capanuevanombre;
     capas[capas.length] = capanuevanombre;
-    cargarpanel();    
-
-
-
+    var node = document.getElementById('panel');
+    sketchElement = document.createElement('<input type="checkbox" id="check_layer_'+capasnombres.length+'"><label for="check_layer_'+capasnombres.length+'">'+capasnombres[capasnombres.length-1]+'</label><br/>');
+    node.appendChild(sketchElement);
 }
+
+
 //funcion que agrega capa a la bd y al listado de capas
 
 
@@ -397,6 +401,7 @@ dialog2 = $( "#agregarelementocapa" ).dialog({
     modal: true,
     buttons: {
     agregarelementoacapa: function() {
+        
         agregaratributocapa(),
         dialog2.dialog( "close" );   
     },
@@ -453,17 +458,17 @@ function agregarelementocapa(){
 
                           }, this);
     }
-    
-    addInteraction();
     map.addLayer(vectoratributo);
     layer[layer.length]=vectoratributo;
+    //cargarpanel();
+    addInteraction();
     map.on('click', function(evt) {
         var coordenadaspunto = evt.coordinate;
         coordenadas='POINT('+coordenadaspunto[0]+' ' +coordenadaspunto[1]+')';
         
 
     });
-    cargarpanel();
+    
     var node = document.getElementById('agregarelementocapa');
     var str ='<label>nombre</label><input id="atributocapa" type="text"/><select id="nombrecapaatributo">';
 
@@ -501,10 +506,19 @@ function agregarelementocapa(){
 
 
 function agregaratributocapa(){
+    
+    
     atributonombre = document.getElementById('atributocapa').value;
     atributocapa = document.getElementById('nombrecapaatributo');
+    
+    var visibilida = new ol.dom.Input(document.getElementById('check_layer_'+atributocapa.value+''));
+        //creo un enlace entre el checkbox y mi capa
+        //(propiedad del input, objeto, propiedad del objeto)
+       // visibilida.bindTo('checked', map.getLayers().item(i), 'visible');
+        visibilida.bindTo('checked', vectoratributo, 'visible');
+   
     console.log(capas[atributocapa.value]);
-    console.log(atributonombre);
+    console.log(atributocapa.value);
     window.open('php/agregaratributoscapa.php?capanombre='+capas[atributocapa.value]+'&atributonombre='+atributonombre+'&coordenadas='+coordenadas);
        // window.open('php/agregaratributoscapa.php?capanombre=capaprueba&atributonombre='+atributonombre+'&coordenadas='+coordenadas);
     
