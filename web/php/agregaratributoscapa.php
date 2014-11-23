@@ -11,7 +11,7 @@ $link= pg_connect("host=localhost user=user password=user dbname=Tpi");
 //$queryCrear="CREATE TABLE public."+capanombre+"";
 
 $queryCrear=<<<EOD
-INSERT INTO public."$capanombre"
+INSERT INTO public."$capanombre" (nombre, geom)
 VALUES('$atributo',ST_geomfromtext('$coordenadas',4326)
 ) 
 ;
