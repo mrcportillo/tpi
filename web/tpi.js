@@ -48,6 +48,7 @@ capas[44]='veg_cultivos';
 capas[45]='veg_hidrofila';
 capas[46]='veg_suelo_desnudo';
 capas[47]='vias_secundarias';
+capas[48]='capaprueba';
 var capasnombres = new Array();
 capasnombres[1]='Actividades Agropecuarias';
 capasnombres[2]='Actividades Economicas';
@@ -96,12 +97,23 @@ capasnombres[44]='Veg. cultivos';
 capasnombres[45]='Veg. hidrofila';
 capasnombres[46]='Veg. suelo desnudo';
 capasnombres[47]='Vias Secundarias';
-//funcion que devuelve un arreglo de capas
+capasnombres[48]='Capa Prueba';
 
+var vectormedicion; //vector
+var vectoratributo; //vector
+var dibujomedicion; //interaccion
+var dibujoatributo; //interaccion
+var dibujoconsulta;
+var visibilidad; //array de links entre layers y checkboxs
 var layer = new Array();
+//funcion que devuelve un arreglo de capas
+var scaleLineControl = new ol.control.ScaleLine();
+   
 function listarcapas(){
-    var i = 1;/*
+    var i = 1;
+    
     var capa = new ol.layer.Tile({
+         target: map,
         title: "Global Imagery",
         source: new ol.source.TileWMS({
           url: 'http://maps.opengeo.org/geowebcache/service/wms',
@@ -111,13 +123,22 @@ function listarcapas(){
           }
         })
       })
-*/
+/*
+   
    var capa = new ol.layer.Tile({
+       controls: ol.control.defaults({
+        attributionOptions: /** @type {olx.control.AttributionOptions} / ({
+        collapsible: false})
+        }).extend([scaleLineControl]),
+        
+        //renderer: exampleNS.getRendererFromQueryString(),
+        target: map,
          source: new ol.source.MapQuest({layer: 'sat'})
    })
+   */
     layer[0] = capa;
 
-    for (i=1;i<=47;i++) {
+    for (i=1;i<=48;i++) {
       var capa = new ol.layer.Image({
         visible: false,
         title: capas[i],
@@ -139,10 +160,18 @@ function listarcapas(){
     // definicion del mapa
 
 var map = new ol.Map({
+    controls: ol.control.defaults({
+    attributionOptions: /** @type {olx.control.AttributionOptions} */ ({
+      collapsible: false
+    })
+    }).extend([
+        scaleLineControl
+    ]),
+    //renderer: exampleNS.getRendererFromQueryString(),
     target: 'map',
     layers: listarcapas(),
     view: new ol.View({
-      //projection: 'EPSG:4326',
+      projection: 'EPSG:4326',
       //center: [-59, -27.5],
       //zoom: 4
       center: [-59, -27.5],
@@ -154,7 +183,7 @@ cargarpanel();
 //funcion que agrega capas al panel y asocia su checkbox
 
 function cargarpanel(){
-    var visibilidad = new Array();
+    visibilidad = new Array();
     var node = document.getElementById('panel');
     str1 = '<h3>Capas</h3><br/>';
     //generar el string con codigo html para definir la seccion de capas
@@ -170,14 +199,20 @@ function cargarpanel(){
         var visibilida = new ol.dom.Input(document.getElementById('check_layer_'+i+''));
         //creo un enlace entre el checkbox y mi capa
         //(propiedad del input, objeto, propiedad del objeto)
-        visibilida.bindTo('checked', map.getLayers().item(i), 'visible');
+       // visibilida.bindTo('checked', map.getLayers().item(i), 'visible');
+        visibilida.bindTo('checked', layer[i], 'visible');
+
         visibilidad[i]=visibilida;
     }
 }
 
 function medir(){
+    //remover capas y interacciones
+    map.removeInteraction(dibujoatributo);
+    map.removeInteraction(dibujoconsulta);
+    //map.removeLayer(vectoratributo);
     var source = new ol.source.Vector();
-    var vectormedicion = new ol.layer.Vector({
+    vectormedicion = new ol.layer.Vector({
         source: source,
         style: new ol.style.Style({
             fill: new ol.style.Fill({
@@ -233,16 +268,15 @@ function medir(){
 
     //var typeSelect = document.getElementById('type');
 
-    var draw; // global so we can remove it later
     function addInteraction() {
         var type = "LineString";
-        draw = new ol.interaction.Draw({
+        dibujomedicion = new ol.interaction.Draw({
             source: source,
             type: /** @type {ol.geom.GeometryType} */ (type)
         });
-        map.addInteraction(draw);
+        map.addInteraction(dibujomedicion);
 
-        draw.on('drawstart',
+        dibujomedicion.on('drawstart',
         function(evt) {
             //set sketch
             sketch = evt.feature;
@@ -255,7 +289,7 @@ function medir(){
             }
         }, this);
 
-        draw.on('drawend',
+        dibujomedicion.on('drawend',
             function(evt) {
                 // unset sketch
                 sketch = null;
@@ -278,13 +312,13 @@ function medir(){
      * @return {string}
      */
     var formatLength = function(line) {
-        //var length = Math.round(line.getLength() * 150000);
-        var length = Math.round(line.getLength() * 100) / 100;
+        var length = Math.round(line.getLength() * 150000);
+        //var length = Math.round(line.getLength() * 100) / 100;
         var output;
         if (length > 100) {
             output = (Math.round(length / 1000 * 100) / 100) +
             ' ' + 'km';
-        } else {
+       } else {
             output = (Math.round(length * 100) / 100) +
             ' ' + 'm';
         }
@@ -299,7 +333,6 @@ function medir(){
 
 //funcion que agrega capa a la bd y al listado de capas
 function agregarelemento() {
-
     capanuevanombre = $("#crearcapa").find('input[name="texto"]').val();
     console.log(capanuevanombre);
     window.open('php/crearcapa.php?capanombre='+capanuevanombre);
@@ -313,14 +346,13 @@ function agregarelemento() {
         })
     })
     //map.addLayer(capa);
-    //layer[layer.length] = capa;
+    layer[layer.length] = capa;
     capasnombres[capasnombres.length] = capanuevanombre;
     capas[capas.length] = capanuevanombre;
-    cargarpanel();    
-
-
-
+    
 }
+
+
 //funcion que agrega capa a la bd y al listado de capas
 
 
@@ -353,6 +385,11 @@ function agregarelemento() {
 
 //funcion que muestra el texbox para introducir el nombre de la capa
 function agregarcapa(){
+    //remover capas e interacciones de atributos
+    map.removeInteraction(dibujoatributo);
+    //remover interacciones y capas de medicion
+    map.removeInteraction(dibujomedicion);
+    map.removeLayer(vectormedicion);
     dialog.dialog( "open" );
 
  
@@ -368,6 +405,7 @@ dialog2 = $( "#agregarelementocapa" ).dialog({
     modal: true,
     buttons: {
     agregarelementoacapa: function() {
+        
         agregaratributocapa(),
         dialog2.dialog( "close" );   
     },
@@ -379,19 +417,17 @@ dialog2 = $( "#agregarelementocapa" ).dialog({
         dialog2.dialog( "close" );
     }
 });
-//funcion que muestra el texbox para introducir el nombre de la capa
-function agregarcapa(){
-    dialog.dialog( "open" );
-
- 
-}
 
 
-var vector;
 var coordenadas;
 function agregarelementocapa(){
+    //remover interacciones y capas de medicion
+    map.removeInteraction(dibujomedicion);
+    map.removeInteraction(dibujoconsulta);
+    map.removeLayer(vectormedicion);
+    
     var source = new ol.source.Vector();
-    vector = new ol.layer.Vector({
+    vectoratributo = new ol.layer.Vector({
         source: source,
         style: new ol.style.Style({
             fill: new ol.style.Fill({
@@ -410,16 +446,15 @@ function agregarelementocapa(){
         })
       
     });    
-    var draw; // global so we can remove it later
     function addInteraction() {
         var type = "Point";
-        draw = new ol.interaction.Draw({
+        dibujoatributo = new ol.interaction.Draw({
             source: source,
             type: /** @type {ol.geom.GeometryType} */ (type)
         });
         
-        map.addInteraction(draw);  
-        draw.on('drawend',
+        map.addInteraction(dibujoatributo);  
+        dibujoatributo.on('drawend',
                           function(evt) {
                             // unset sketch
                             wkt = 'POINT';
@@ -430,14 +465,13 @@ function agregarelementocapa(){
     }
     
     addInteraction();
-    map.addLayer(vector);
-    layer[layer.length]=vector;
     map.on('click', function(evt) {
         var coordenadaspunto = evt.coordinate;
-        coordenadas='POINT('+coordenadaspunto[0]+' ' +coordenadaspunto[1]+')'
+        coordenadas='POINT('+coordenadaspunto[0]+' ' +coordenadaspunto[1]+')';
         
 
     });
+    
     var node = document.getElementById('agregarelementocapa');
     var str ='<label>nombre</label><input id="atributocapa" type="text"/><select id="nombrecapaatributo">';
 
@@ -531,14 +565,81 @@ function agregarpoligonocapa(){
 
 
 function agregaratributocapa(){
+    
+    
     atributonombre = document.getElementById('atributocapa').value;
     atributocapa = document.getElementById('nombrecapaatributo');
+    
+   
+   
     console.log(capas[atributocapa.value]);
-    console.log(atributonombre);
+    console.log(atributocapa.value);
     window.open('php/agregaratributoscapa.php?capanombre='+capas[atributocapa.value]+'&atributonombre='+atributonombre+'&coordenadas='+coordenadas);
        // window.open('php/agregaratributoscapa.php?capanombre=capaprueba&atributonombre='+atributonombre+'&coordenadas='+coordenadas);
     
-    cargarpanel();
+    
     
 }
    
+dibujoconsulta = new ol.interaction.DragBox(
+      {
+          //condicion mediante la cual se activa la interaccion
+	condition: ol.events.condition.shiftKeyOnly,
+        //estilo del rectangulo a dibujar (dragbox)
+	style: new ol.style.Style({
+		stroke: new ol.style.Stroke({
+		    color: [255, 255, 255, 1] //RGB
+		})
+	    })
+      }
+ );
+ //agrego la interaccion al mapa
+ //map.addInteraction(dibujoconsulta);
+ 
+ dibujoconsulta.on('boxend', function(evt){
+     
+     consultar (dibujoconsulta.getGeometry().getCoordinates());
+ });
+ 
+ 
+ var consultar =function(coordinate){
+     console.log(coordinate);
+     for (i=1;i<=(capasnombres.length-1);i++) {
+         var capaSelec = document.getElementById('check_layer_'+i+'').checked;
+         if (capaSelec){
+            var capa = capas[i];
+         }
+     }
+    console.log(capa);
+     if(coordinate.length==2){
+		//es un punto [lon,lat]
+		var wkt='POINT('+coordinate[0]+' ' +coordinate[1]+')';
+	}else{
+		//es un poligono en la forma [ [ [lon,lat],[lon,lat],....] ]
+		var wkt = 'POLYGON((';
+		for(var i=0;i<coordinate[0].length - 1;i++){
+			wkt+=coordinate[0][i][0]+ ' ' + coordinate[0][i][1]+ ',';
+		}
+		wkt+=coordinate[0][0][0]+' '+coordinate[0][0][1]+'))';
+	}
+	console.log(wkt);
+	window.open('php/consulta.php?wkt='+wkt+'&capa='+capa+'');
+        return;
+ };
+ 
+ var clickEnMapa = function (evt){
+    consultar(evt.coordinate);
+ };
+ 
+ var realizarConsulta = function(){
+      //remover capas e interacciones de atributos
+    map.removeInteraction(dibujoatributo);
+    //remover interacciones y capas de medicion
+    map.removeInteraction(dibujomedicion);
+    map.removeLayer(vectormedicion);
+    
+    map.addInteraction(dibujoconsulta);
+    //map.on('click', clickEnMapa);
+    
+ };
+ 
