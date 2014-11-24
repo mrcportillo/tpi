@@ -46,8 +46,9 @@ Released   : 20140207
                                 
 				<li  onclick="medir(this)"><img src="images/measure.png"/><a href="#"  accesskey="1" title="">Distancia</a></li>
 				<li> <img src="images/add-icon.gif"/><a href="#" onclick="agregarcapa(this)" accesskey="2" title="">Nueva Capa</a></li>
-				<li><a href="#" onclick="agregarelementocapa(this)" accesskey="3" title="">Agregar Elemento a capa</a></li>
-				<li><a href="#" accesskey="4" title="">La</a></li>
+				<li><img src="images/add-icon.gif"/><a href="#" onclick="agregarelementocapa(this)" accesskey="3" title="">Agregar punto a capa</a></li>
+				<li><img src="images/add-icon.gif"/><a href="#" onclick="agregarpoligonocapa(this)" accesskey="3" title="">Agregar poligono a capa</a></li>
+				<li><a href="#" accesskey="4" title="">Consultar</a></li>
 				
 			</ul>
 		</div>
@@ -65,6 +66,9 @@ Released   : 20140207
 			
 		</div>
 		<div id="panel"> </div>
+
+		<div id="panelactivo"> </div>
+
 		<form id="crearcapa" title="agregando capa">
 			<fieldset>
 				<label>nombre</label>
@@ -73,8 +77,10 @@ Released   : 20140207
 		</form>
         <form id="agregarelementocapa" title="agregando elemento a la capa">
         	 <fieldset>
-				<label>nombre</label>
-				<input id="texto" type="text" class="text ui-widget-content ui-corner-all" />
+        	 	
+					<label>nombre</label>
+					<input name="texto2" type="text" class="text ui-widget-content ui-corner-all" />
+
 			</fieldset>		        
                     
 

@@ -456,9 +456,57 @@ function agregarelementocapa(){
                     
 }
 
-/*function mostrarlista() {
+function agregarpoligonocapa(){
+    var source = new ol.source.Vector();
+    vector = new ol.layer.Vector({
+        source: source,
+        style: new ol.style.Style({
+            fill: new ol.style.Fill({
+                color: 'rgba(255, 255, 255, 0.2)'
+            }),
+            stroke: new ol.style.Stroke({
+                color: '#ffcc33',
+                width: 2
+            }),
+            image: new ol.style.Circle({
+                radius: 7,
+                fill: new ol.style.Fill({
+                    color: '#ffcc33'
+                })
+            })
+        })
+      
+    });    
+    var draw; // global so we can remove it later
+    function addInteraction() {
+        var type = "Polygon";
+        draw = new ol.interaction.Draw({
+            source: source,
+            type: /** @type {ol.geom.GeometryType} */ (type)
+        });
+        
+        map.addInteraction(draw);  
+        draw.on('drawend',
+                          function(evt) {
+                            // unset sketch
+                            wkt = 'POLYGON';
+                            dialog2.dialog( "open" );;
+                                         
+
+                          }, this);
+    }
+    
+    addInteraction();
+    map.addLayer(vector);
+    layer[layer.length]=vector;
+    map.on('click', function(evt) {
+        var coordenadaspunto = evt.coordinate;
+        coordenadas='POLYGON('+coordenadaspunto[0]+' ' +coordenadaspunto[1]+')'
+        
+
+    });
     var node = document.getElementById('agregarelementocapa');
-    var str ='<label>nombre</label><input id="atributocapa" type="text"/><button onclick="agregaratributocapa(this)" id="ok" value="ok">aceptar</button><button  id="cancel" value="cancel">cancelar</button><select id="nombrecapaatributo">';
+    var str ='<label>nombre</label><input id="atributocapa" type="text"/><select id="nombrecapaatributo">';
 
     //generar el string con codigo html para definir la seccion de capas
     for (i=1;i<=(capasnombres.length-1);i++) {
@@ -469,9 +517,17 @@ function agregarelementocapa(){
     //insertar el string en el documento html
     node.innerHTML= str;
 
-
+                    
+                    
+                    
+                    
 }
-*/
+
+
+
+
+
+
 
 
 function agregaratributocapa(){
