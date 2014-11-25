@@ -251,7 +251,6 @@ function medir(){
     * Element for currently drawed feature
      * @type {Element}
                          */
-    var sketchElement;
 
 
     /**
@@ -260,6 +259,8 @@ function medir(){
      */
     var mouseMoveHandler = function(evt) {
       if (sketch) {
+        var sketchElement = document.getElementById('measureOutput');;
+  
         var output;
         var geom = (sketch.getGeometry());
 
@@ -292,14 +293,14 @@ function medir(){
             //set sketch
             sketch = evt.feature;
             
-            sketchElement = document.createElement('li');
+            //sketchElement = document.createElement('li');
             sketchElement.setAttribute("class", "panel-footer");
-            var outputList = document.getElementById('measureOutput');
-            if (outputList.childNodes) {
+            //var outputList = document.getElementById('measureOutput');
+            /*if (outputList.childNodes) {
                 outputList.insertBefore(sketchElement, outputList.firstChild);
             } else {
                 outputList.appendChild(sketchElement);
-            }
+            }*/
          
         }, this);
 
