@@ -83,6 +83,10 @@
 		width: 237px;
 		float: right;
 
+                background-color:#FFFFCC;
+		
+		text-align:left;
+		overflow: auto;
 	}
 
 	li:hover{

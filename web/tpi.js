@@ -181,31 +181,42 @@ var map = new ol.Map({
     
 cargarpanel(); 
 //funcion que agrega capas al panel y asocia su checkbox
+function leyenda(){      
+    var srcpanel="<h3>Leyendas</h3><br/>";
 
+    var node = document.getElementById('panelactivo');
+        for (i=1;i<=(layer.length-1);i++) {
+            var visibilida = (document.getElementById('check_layer_'+i+''));
+        
+            if (visibilida.checked){
+                srcpanel = srcpanel + "<image src='http://localhost/cgi-bin/qgis_mapserv.fcgi?map=/home/user/data/gisdatatpi/tpi.qgs&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&FORMAT=image%2Fpng&LAYERS="+layer[i].p.title+"'/><br/>";
+                
+        }
+    }
+        node.innerHTML= srcpanel;      
+}
 function cargarpanel(){
     visibilidad = new Array();
     var node = document.getElementById('panel');
     str1 = '<h3>Capas</h3><br/>';
     //generar el string con codigo html para definir la seccion de capas
     for (i=1;i<=(capasnombres.length-1);i++) {
-        str1 = str1+'<input type="checkbox" id="check_layer_'+i+'"><label for="check_layer_'+i+'">'+capasnombres[i]+'</label><br/>';
+        str1 = str1+'<input type="checkbox" onClick="leyenda(this)" id="check_layer_'+i+'"><label for="check_layer_'+i+'">'+capasnombres[i]+'</label><br/>';
 
     }
     //insertar el string en el documento html
     node.innerHTML= str1;
     //arreglo de visibilidad
-
     for (i=1;i<=(layer.length-1);i++) {
         var visibilida = new ol.dom.Input(document.getElementById('check_layer_'+i+''));
         //creo un enlace entre el checkbox y mi capa
         //(propiedad del input, objeto, propiedad del objeto)
        // visibilida.bindTo('checked', map.getLayers().item(i), 'visible');
         visibilida.bindTo('checked', layer[i], 'visible');
-
+        
         visibilidad[i]=visibilida;
     }
 }
-
 function medir(){
     //remover capas y interacciones
     map.removeInteraction(dibujoatributo);
