@@ -282,7 +282,7 @@ function medir(){
             sketch = evt.feature;
             
             sketchElement = document.createElement('li');
-            sketchElement.setAttribute("class", "panel-footer");
+            sketchElement.setAttribute("id", "medirdiv");
             var outputList = document.getElementById('measureOutput');
             if (outputList.childNodes) {
                 outputList.insertBefore(sketchElement, outputList.firstChild);
