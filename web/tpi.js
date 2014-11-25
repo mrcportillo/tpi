@@ -280,13 +280,16 @@ function medir(){
         function(evt) {
             //set sketch
             sketch = evt.feature;
+            
             sketchElement = document.createElement('li');
+            sketchElement.setAttribute("class", "panel-footer");
             var outputList = document.getElementById('measureOutput');
             if (outputList.childNodes) {
                 outputList.insertBefore(sketchElement, outputList.firstChild);
             } else {
                 outputList.appendChild(sketchElement);
             }
+         
         }, this);
 
         dibujomedicion.on('drawend',

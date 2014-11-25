@@ -18,6 +18,8 @@ Released   : 20140207
 <meta name="description" content="" />
 <script src="js/libs/ol3/build/ol.js" type="text/javascript"></script>
 <script src="js/libs/jquery.min.js" type="text/javascript"></script>
+<script src="js/dist/js/bootstrap.min.js" type="text/javascript"></script>
+
 
 <script src="js/jquery-ui-1.11.2/jquery-ui.js"></script>
 <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900" rel="stylesheet" />
@@ -25,6 +27,11 @@ Released   : 20140207
 <link href="fonts.css" rel="stylesheet" type="text/css" media="all" />
 <link href="js/libs/ol3/css/ol.css" rel="stylesheet" type="text/css" media="all" />
 <link href="js/jquery-ui-1.11.2/jquery-ui.css" rel="stylesheet" type="text/css" media="all" />
+<!-- <link href="js/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css" media="all" /> -->
+
+
+
+
 
 
 <!--[if IE 6]><link href="default_ie6.css" rel="stylesheet" type="text/css" /><![endif]-->
@@ -49,9 +56,9 @@ Released   : 20140207
 
 				<li><img src="images/add-icon.gif"/><a href="#" onclick="agregarelementocapa(this)" accesskey="3" title="">Agregar punto a capa</a></li>
 				<li><img src="images/add-icon.gif"/><a href="#" onclick="agregarpoligonocapa(this)" accesskey="3" title="">Agregar poligono a capa</a></li>
-				<li><a href="#" accesskey="4" title="">Consultar</a></li>
+				
 
-				<li><a href="#" onclick="realizarConsulta(this)" accesskey="4" title=""> Consultar</a></li>
+				<li><img  src="images/consulta.png" style="height: 16px; width:16px;"/><a href="#" onclick="realizarConsulta(this)" accesskey="4" title=""> Consultar</a></li>
                                
 
 				
@@ -72,7 +79,10 @@ Released   : 20140207
 		</div>
 		<div id="panel"> </div>
 
-		<div id="panelactivo"> </div>
+		<div id="panelactivo"> 
+				<input type="button"/>
+
+		</div>
 
 		<form id="crearcapa" title="agregando capa">
 			<fieldset>
