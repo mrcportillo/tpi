@@ -72,9 +72,20 @@
 		
 		 
 	}
+	td {
+    padding: 15px;
+}
+	
+	#tabla1{
+		border: 1px solid black;
+		height: 50px;
+		width: 50px;
+	}
+
 	#medirdiv{
-		background-color: #3300FF;
+		background-color: #242424;
 		width: 100px;
+		text-align: center;
 
 	}
 	#panelactivo{
@@ -430,7 +441,7 @@
 		float: left;
 		padding-top: 10px;
 		width: 1100px;
-		height: 500px;
+		height: 510px;
 			
 
 
@@ -504,7 +515,7 @@
 
 	#wrapper2
 	{
-		height:530px;
+		height:570px;
 		background: #DC572E;
 	}
 
