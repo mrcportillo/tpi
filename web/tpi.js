@@ -111,7 +111,7 @@ var scaleLineControl = new ol.control.ScaleLine();
    
 function listarcapas(){
     var i = 1;
-    
+    /*
     var capa = new ol.layer.Tile({
          target: map,
         title: "Global Imagery",
@@ -123,11 +123,11 @@ function listarcapas(){
           }
         })
       })
-/*
+*/
    
    var capa = new ol.layer.Tile({
        controls: ol.control.defaults({
-        attributionOptions: /** @type {olx.control.AttributionOptions} / ({
+        attributionOptions: /** @type {olx.control.AttributionOptions} */ ({
         collapsible: false})
         }).extend([scaleLineControl]),
         
@@ -135,7 +135,7 @@ function listarcapas(){
         target: map,
          source: new ol.source.MapQuest({layer: 'sat'})
    })
-   */
+   
     layer[0] = capa;
 
     for (i=1;i<=48;i++) {
@@ -171,10 +171,10 @@ var map = new ol.Map({
     target: 'map',
     layers: listarcapas(),
     view: new ol.View({
-      projection: 'EPSG:4326',
+      //projection: 'EPSG:4326',
       //center: [-59, -27.5],
       //zoom: 4
-      center: [-59, -27.5],
+      center: [-7476251.419912837, -4966004.85990393],
     zoom: 4
     })
 });
@@ -219,6 +219,8 @@ function cargarpanel(){
 }
 function medir(){
     //remover capas y interacciones
+            document.getElementById("measureOutput").style.visibility="";
+
     map.removeInteraction(dibujoatributo);
     map.removeInteraction(dibujoconsulta);
     //map.removeLayer(vectoratributo);
@@ -331,8 +333,8 @@ function medir(){
      * @return {string}
      */
     var formatLength = function(line) {
-        var length = Math.round(line.getLength() * 150000);
-        //var length = Math.round(line.getLength() * 100) / 100;
+        //var length = Math.round(line.getLength() * 150000);
+        var length = Math.round(line.getLength() * 100) / 100;
         var output;
         if (length > 100) {
             output = (Math.round(length / 1000 * 100) / 100) +
@@ -441,6 +443,8 @@ dialog2 = $( "#agregarelementocapa" ).dialog({
 var coordenadas;
 function agregarelementocapa(){
     //remover interacciones y capas de medicion
+    document.getElementById("measureOutput").style.visibility="hidden";
+
     map.removeInteraction(dibujomedicion);
     map.removeInteraction(dibujoconsulta);
     map.removeLayer(vectormedicion);
@@ -510,6 +514,8 @@ function agregarelementocapa(){
 }
 
 function agregarpoligonocapa(){
+        document.getElementById("measureOutput").style.visibility="hidden";
+
     var source = new ol.source.Vector();
     vector = new ol.layer.Vector({
         source: source,
@@ -656,7 +662,8 @@ dibujoconsulta = new ol.interaction.DragBox(
     //remover interacciones y capas de medicion
     map.removeInteraction(dibujomedicion);
     map.removeLayer(vectormedicion);
-    
+        document.getElementById("measureOutput").style.visibility="hidden";
+
     map.addInteraction(dibujoconsulta);
     //map.on('click', clickEnMapa);
     

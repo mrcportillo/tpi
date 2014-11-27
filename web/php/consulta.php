@@ -19,8 +19,8 @@ $link= pg_connect("host=localhost port=5432 user=user password=user dbname=Tpi")
 
 $query=<<<EOD
 SELECT * FROM public."$capa" WHERE 
-ST_Intersects(
-ST_GeomFromText('$wkt',4326),
+ST_Intersects(ST_Transform(
+ST_GeomFromText('$wkt',3857),4326),
 geom
 )
 LIMIT 100

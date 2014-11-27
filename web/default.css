@@ -92,7 +92,15 @@
 		text-align:left;
 		overflow: auto;
 	}
-
+        #pie{
+            color: #ffffff;
+            float: end;
+            
+        }
+        #imagenpie{
+             float: right;
+        
+        }
 	li:hover{
 		background-color: #DC572E;
 
@@ -616,6 +624,7 @@
 		overflow: hidden;
 		padding: 5em 0em;
 		border-top: 1px solid rgba(255,255,255,0.08);
+                height : 0px;
 	}
 	
 	#copyright p
