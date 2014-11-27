@@ -76,7 +76,7 @@ while ($row = pg_fetch_row($result)) {
 <body>
 
 <h3>Nro. Registros: <?php echo $nro_registros;?></h3>
-<table id="tabla">
+<table id="tabla" style=" border:1px solid green ">
 <?php echo $header ?>
 <?php echo $cuerpo ?>
 </table>
