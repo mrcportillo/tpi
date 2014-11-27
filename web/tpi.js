@@ -259,8 +259,8 @@ function medir(){
      */
     var mouseMoveHandler = function(evt) {
       if (sketch) {
-        var sketchElement = document.getElementById('measureOutput');;
-  
+        var sketchElement = document.getElementById('measureOutput');
+        
         var output;
         var geom = (sketch.getGeometry());
 
@@ -297,7 +297,7 @@ function medir(){
             
 
             //sketchElement = document.createElement('li');
-            sketchElement.setAttribute("class", "panel-footer");
+            
             //var outputList = document.getElementById('measureOutput');
             /*if (outputList.childNodes) {
 >>>>>>> c48ba91c5d5a09b88728bc8fde45ae4142484188

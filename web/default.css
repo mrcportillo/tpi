@@ -72,16 +72,9 @@
 		
 		 
 	}
-	td {
-    padding: 15px;
-}
 	
-	#tabla1{
-		border: 1px solid black;
-		height: 50px;
-		width: 50px;
-	}
-
+	
+	
 	#medirdiv{
 		background-color: #242424;
 		width: 100px;
@@ -506,6 +499,24 @@
 /* Wrapper                                                                       */
 /*********************************************************************************/
 
+	#measureOutput{
+		background-color: #480000;
+		margin-left: auto;
+		margin-right: auto;
+		width: 100px;
+
+	}
+	table, td, th {
+    border: 1px solid green;
+	}
+
+	th {
+    background-color: green;
+    color: white;
+	}
+	#tabla{
+		border: 1px solid green;	
+	}
 
 
 	#wrapper1
