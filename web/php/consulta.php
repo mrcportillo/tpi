@@ -69,14 +69,15 @@ while ($row = pg_fetch_row($result)) {
 		<style>
 			body, table{
 				font-family: Arial, Helvetica, sans-serif;
-				font-size: 11px;			
+				font-size: 11px;
+							
 			}
 		</style>
 	</head>
 <body>
 
 <h3>Nro. Registros: <?php echo $nro_registros;?></h3>
-<table id="tabla" style=" border:1px solid green; background-color: green;
+<table id="tabla" style=" border: 1px ; background-color: #330000;
     color: white;">
 <?php echo $header ?>
 <?php echo $cuerpo ?>
